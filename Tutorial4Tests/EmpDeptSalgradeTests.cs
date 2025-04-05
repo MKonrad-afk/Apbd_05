@@ -9,6 +9,8 @@ public class EmpDeptSalgradeTests
     {
         var emps = Database.GetEmps();
         var result = emps.Where(e => e.Job == "SALESMAN").ToList();
+        Assert.Equal(2, result.Count);
+        Assert.All(result, e => Assert.Equal("SALESMAN", e.Job));
     }
 
     // 2. WHERE + OrderBy
@@ -17,7 +19,10 @@ public class EmpDeptSalgradeTests
     public void ShouldReturnDept30EmpsOrderedBySalaryDesc()
     {
         var emps = Database.GetEmps();
-        var result = emps.Where(e => e.Job == "DEPT30").OrderByDescending(e=>e.Sal).ToList();
+        
+        var result = emps.Where(e => e.DeptNo == 30).OrderByDescending(e=>e.Sal).ToList();
+        Assert.Equal(2, result.Count);
+        Assert.True(result[0].Sal >= result[1].Sal);
     }
 
     // 3. Subquery using LINQ (IN clause)
@@ -29,6 +34,7 @@ public class EmpDeptSalgradeTests
         var depts = Database.GetDepts();
         var deptNoList = depts.Where(e => e.Loc == "CHICAGO" ).Select(e=>e.DeptNo).ToList();
         var result = emps.Where(e=> deptNoList.Contains(e.DeptNo)).ToList();
+        Assert.All(result, e => Assert.Equal(30, e.DeptNo));
     }
 
     // 4. SELECT projection
@@ -38,6 +44,11 @@ public class EmpDeptSalgradeTests
     {
         var emps = Database.GetEmps();
         var result = emps.Select(e=>new {e.EName,e.Sal}).ToList();
+        Assert.All(result, r =>
+        {
+            Assert.False(string.IsNullOrWhiteSpace(r.EName));
+            Assert.True(r.Sal > 0);
+        });
     }
 
     // 5. JOIN Emp to Dept
@@ -55,6 +66,8 @@ public class EmpDeptSalgradeTests
             {e.EName,
                 d.DName
             });
+
+        Assert.Contains(result, r => r.DName == "SALES" && r.EName == "ALLEN");
     }
 
     // 6. Group by DeptNo
@@ -69,6 +82,8 @@ public class EmpDeptSalgradeTests
                 DeptNo = g.Key,
                 EmpCount = g.Count()
             }).ToList();
+        
+        Assert.Contains(result, g => g.DeptNo == 30 && g.EmpCount == 2);
     }
 
     // 7. SelectMany (simulate flattening)
@@ -77,8 +92,9 @@ public class EmpDeptSalgradeTests
     public void ShouldReturnEmployeesWithCommission()
     {
         var emps = Database.GetEmps();
-        var results = emps.Where(e => e.Comm != null).SelectMany(
+        var result = emps.Where(e => e.Comm != null).SelectMany(
             e => new[] {new { e.EName, e.Comm }}).ToList();
+        Assert.All(result, r => Assert.NotNull(r.Comm));
     }
 
     // 8. Join with Salgrade
@@ -88,6 +104,7 @@ public class EmpDeptSalgradeTests
     {
         var emps = Database.GetEmps();
         var grades = Database.GetSalgrades();
+
         var result = emps
             .Join(
                 grades,
@@ -97,7 +114,7 @@ public class EmpDeptSalgradeTests
             .Where(es => es.e.Sal >= es.s.Losal && es.e.Sal <= es.s.Hisal)
             .Select(es => new { es.e.EName, es.s.Grade })
             .ToList();
-
+        Assert.Contains(result, r => r.EName == "ALLEN" && r.Grade == 3);
     }
 
     // 9. Aggregation (AVG)
@@ -108,11 +125,12 @@ public class EmpDeptSalgradeTests
         var emps = Database.GetEmps();
         var result = emps.GroupBy(e => e.DeptNo).Select(
             g =>
-            new
-            {
-                DeptNo = g.Key,
-                Avg = g.Average(e => e.Sal)
-            }).ToList();
+                new
+                {
+                    DeptNo = g.Key,
+                    Avg = g.Average(e => e.Sal)
+                }).ToList();
+        Assert.Contains(result, r => r.DeptNo == 30 && r.Avg > 1000);
     }
 
     // 10. Complex filter with subquery and join
@@ -121,8 +139,13 @@ public class EmpDeptSalgradeTests
     public void ShouldReturnEmployeesEarningMoreThanDeptAverage()
     {
         var emps = Database.GetEmps();
-        var avrageEmps = emps.Average(e => e.Sal);
-        var result = emps.Where(e => e.DeptNo > avrageEmps).Select(
-            e=> e.EName).ToList();
+        var result = emps
+            .Where(e =>
+                e.Sal > emps
+                    .Where(x => x.DeptNo == e.DeptNo)
+                    .Average(x => x.Sal))
+            .Select(e => e.EName)
+            .ToList();
+        Assert.Contains("ALLEN", result);
     }
 }

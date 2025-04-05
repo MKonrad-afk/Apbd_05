@@ -125,19 +125,18 @@ public class AdvancedEmpDeptTests
         var grades = Database.GetSalgrades();
         var result = emps
             .Join(depts, 
-                e => e.DeptNo,       
-                d => d.DeptNo,       
-                (e, d) => new { e, d })  
-            .Join(grades,
-                ed => ed.e.Sal,     
-                s => s.Losal,      
-                (ed, s) => new { ed.e, ed.d, s }) 
-            .Where(x => x.e.Sal >= x.s.Losal && x.e.Sal <= x.s.Hisal) 
-            .Select(x => new { 
-                EmpName = x.e.EName, 
-                DeptName = x.d.DName, 
-                Grade = x.s.Grade 
-            })
+                e => e.DeptNo, 
+                d => d.DeptNo, 
+                (e, d) => new { e, d })
+            .SelectMany(
+                ed => grades
+                    .Where(s => ed.e.Sal >= s.Losal && ed.e.Sal <= s.Hisal),
+                (ed, s) => new 
+                {
+                    EmpName = ed.e.EName,
+                    DeptName = ed.d.DName,
+                    Grade = s.Grade
+                })
             .ToList();
         
         Assert.Contains(result, r => r.EmpName == "ALLEN" && r.DeptName == "SALES" && r.Grade == 3);

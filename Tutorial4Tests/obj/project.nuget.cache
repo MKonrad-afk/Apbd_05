@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "UYWl26sVBBQ=",
+  "dgSpecHash": "Fw1mkBvfMe4=",
   "success": true,
-  "projectFilePath": "/Users/konradmarkiewicz/RiderProjects/Tutorial5_v2/Tutorial4Tests/Tutorial4Tests.csproj",
+  "projectFilePath": "/Users/konradmarkiewicz/RiderProjects/Apbd_05_working one/Tutorial4Tests/Tutorial4Tests.csproj",
   "expectedPackageFiles": [
     "/Users/konradmarkiewicz/.nuget/packages/coverlet.collector/6.0.2/coverlet.collector.6.0.2.nupkg.sha512",
     "/Users/konradmarkiewicz/.nuget/packages/microsoft.codecoverage/17.11.1/microsoft.codecoverage.17.11.1.nupkg.sha512",
@@ -18,9 +18,7 @@
     "/Users/konradmarkiewicz/.nuget/packages/xunit.core/2.9.2/xunit.core.2.9.2.nupkg.sha512",
     "/Users/konradmarkiewicz/.nuget/packages/xunit.extensibility.core/2.9.2/xunit.extensibility.core.2.9.2.nupkg.sha512",
     "/Users/konradmarkiewicz/.nuget/packages/xunit.extensibility.execution/2.9.2/xunit.extensibility.execution.2.9.2.nupkg.sha512",
-    "/Users/konradmarkiewicz/.nuget/packages/xunit.runner.visualstudio/2.8.2/xunit.runner.visualstudio.2.8.2.nupkg.sha512",
-    "/Users/konradmarkiewicz/.nuget/packages/microsoft.netcore.app.ref/8.0.13/microsoft.netcore.app.ref.8.0.13.nupkg.sha512",
-    "/Users/konradmarkiewicz/.nuget/packages/microsoft.aspnetcore.app.ref/8.0.13/microsoft.aspnetcore.app.ref.8.0.13.nupkg.sha512"
+    "/Users/konradmarkiewicz/.nuget/packages/xunit.runner.visualstudio/2.8.2/xunit.runner.visualstudio.2.8.2.nupkg.sha512"
   ],
   "logs": []
 }

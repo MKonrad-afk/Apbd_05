@@ -1,12 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "E/kaWUxy0LE=",
+  "dgSpecHash": "/u6G/UKcGP0=",
   "success": true,
-  "projectFilePath": "/Users/konradmarkiewicz/RiderProjects/Tutorial5_v2/Tutorial4/Tutorial4.csproj",
-  "expectedPackageFiles": [
-    "/Users/konradmarkiewicz/.nuget/packages/microsoft.netcore.app.ref/8.0.13/microsoft.netcore.app.ref.8.0.13.nupkg.sha512",
-    "/Users/konradmarkiewicz/.nuget/packages/microsoft.aspnetcore.app.ref/8.0.13/microsoft.aspnetcore.app.ref.8.0.13.nupkg.sha512",
-    "/Users/konradmarkiewicz/.nuget/packages/microsoft.netcore.app.host.osx-x64/8.0.13/microsoft.netcore.app.host.osx-x64.8.0.13.nupkg.sha512"
-  ],
+  "projectFilePath": "/Users/konradmarkiewicz/RiderProjects/Apbd_05_working one/Tutorial4/Tutorial4.csproj",
+  "expectedPackageFiles": [],
   "logs": []
 }
